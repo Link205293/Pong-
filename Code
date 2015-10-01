@@ -1,1 +1,127 @@
+//Lets create pong
+
+//Globals
+//Size of the board, this will be used to keep methods and vairables more understandable
+int boardW = 1000;
+int boardH = 600;
+//Scoreboard variables
+
+float scoreH = 100;
+float scoreW = 150;
+float scoreX = boardW/2;
+float scoreY = scoreH/2;
+float scoreHHalf = scoreH/2;
+float scoreWHalf = scoreW/2;
+//Score varibales, to be updated by score() but always start at 0
+int score1 = 0;
+int score2 = 0;
+float ballDx, ballDy;
+
+
+
+//Lets draw the board and establish the playing field.
+void setup()
+{
+  size(1000,600);
+}
+
+void draw()
+{
+  background(255,255,255);
+  scoreboard();
+  scoreNumbers();
+  paddle1();
+  paddle2();
+  ball();
+}
+
+//Draws the scoreboard
+void scoreboard()
+{
+
+  rectMode(CENTER);
+  fill(200);
+  strokeWeight(3);
+  rect(scoreX, scoreY, scoreW, scoreH);
+  line(scoreX, scoreY-scoreHHalf, scoreX, scoreY+scoreHHalf);
+  strokeWeight(1);
+  
+  /* Increased the size of the board as the score grows
+  if( (score2) > 9)
+  {
+    scoreW = 250;
+  }
+  if( (score1) > 9)
+  {
+    scoreW = 250;
+  }
+  */
+}
+
+//Updates the score
+void scoreNumbers()
+{
+  
+  fill(0);
+  textSize(100);
+  textAlign(CENTER,CENTER);
+  //The 13 is me tweaking the location of the number via trial and error
+  text(score1, scoreX-scoreWHalf/2, scoreHHalf-13);
+  text(score2, scoreX+scoreWHalf/2, scoreHHalf-13);
+  
+}
+
+//Draws and controlls the player controlled paddle
+void paddle1()
+{
+  fill(0);
+  rectMode(CENTER);
+  rect(50, boardH/2, 10, 70);
+}
+
+//Draws and controlls the computer controlled paddle
+void paddle2()
+{
+  fill(0);
+  rectMode(CENTER);
+  rect(950, boardH/2, 10, 70);
+}
+
+//Draws and conrolls the game ball, also srarts the game
+void ball()
+{
+  fill(0);
+  ellipseMode(CENTER);
+  ellipse(boardW/2, boardH/2, 25, 25);
+  
+}
+
+
+//Other methods
+//Lets the game know if a player scored
+boolean P1score(float S1)
+{
+  boolean point = false;
+  
+  if( S1 > boardW)
+  {
+    point = true;
+  }
+  
+  return point;
+}
+
+boolean P2score(float S2)
+{
+  boolean point = false;
+  
+   if( S2 < 0)
+  {
+    point = true;
+  }
+  
+  return point;
+}
+
+
 
