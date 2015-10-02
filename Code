@@ -122,7 +122,7 @@ void ball()
   //testing mech. to be able to check the score, and the reactions of the paddles
   if(mousePressed && (mouseButton == LEFT))
   {
-    ballX = ballX + 5;
+    ballX = ballX - 5;
   }
   if(mousePressed && (mouseButton == RIGHT))
   {
