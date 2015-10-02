@@ -4,10 +4,13 @@
 //Size of the board, this will be used to keep methods and vairables more understandable
 int boardW = 1000;
 int boardH = 600;
+//Ball variables
+float ballX = boardW/2;
+float ballY = boardH/2;
 //Scoreboard variables
 
 float scoreH = 100;
-float scoreW = 150;
+float scoreW = 250;
 float scoreX = boardW/2;
 float scoreY = scoreH/2;
 float scoreHHalf = scoreH/2;
@@ -16,6 +19,10 @@ float scoreWHalf = scoreW/2;
 int score1 = 0;
 int score2 = 0;
 float ballDx, ballDy;
+//paddle location
+float paddle1Y = boardH/2;
+float paddle2Y = boardH/2;
+
 
 
 
@@ -45,17 +52,7 @@ void scoreboard()
   rect(scoreX, scoreY, scoreW, scoreH);
   line(scoreX, scoreY-scoreHHalf, scoreX, scoreY+scoreHHalf);
   strokeWeight(1);
-  
-  /* Increased the size of the board as the score grows
-  if( (score2) > 9)
-  {
-    scoreW = 250;
-  }
-  if( (score1) > 9)
-  {
-    scoreW = 250;
-  }
-  */
+
 }
 
 //Updates the score
@@ -68,15 +65,43 @@ void scoreNumbers()
   //The 13 is me tweaking the location of the number via trial and error
   text(score1, scoreX-scoreWHalf/2, scoreHHalf-13);
   text(score2, scoreX+scoreWHalf/2, scoreHHalf-13);
+  //scoring for player one
+  if(P1score(ballX) == true)
+  {
+    score1 ++;
+    ballX = boardW/2;
+    ballY = boardH/2;
+  }
+  // scoring for player two
+  if(P2score(ballX) == true)
+  {
+    score2 ++;
+    ballX = boardW/2;
+    ballY = boardH/2;
+    
+  }
   
 }
 
 //Draws and controlls the player controlled paddle
 void paddle1()
 {
+  
   fill(0);
   rectMode(CENTER);
-  rect(50, boardH/2, 10, 70);
+  rect(50, paddle1Y, 10, 70);
+  
+  //paddle up
+  if (key == 'w' && paddle1Y > 0)
+  {
+    paddle1Y = paddle1Y -2;   
+  }
+  //paddle down
+  if (key == 's' && paddle1Y < boardH)
+  {
+    paddle1Y = paddle1Y +2;
+  }
+  
 }
 
 //Draws and controlls the computer controlled paddle
@@ -84,7 +109,7 @@ void paddle2()
 {
   fill(0);
   rectMode(CENTER);
-  rect(950, boardH/2, 10, 70);
+  rect(950, paddle2Y, 10, 70);
 }
 
 //Draws and conrolls the game ball, also srarts the game
@@ -92,13 +117,23 @@ void ball()
 {
   fill(0);
   ellipseMode(CENTER);
-  ellipse(boardW/2, boardH/2, 25, 25);
-  
+  ellipse(ballX, ballY, 25, 25);
+  //testing mech. to be able to check the score, and the reactions of the paddles
+  if(mousePressed && (mouseButton == LEFT))
+  {
+    ballX = ballX + 5;
+  }
+  if(mousePressed && (mouseButton == RIGHT))
+  {
+    ballY = ballY + 5;
+  }
 }
 
 
 //Other methods
 //Lets the game know if a player scored
+//S1 and S2 will be the location of the ball as it moves, 
+//and if it crosses the edges of the map the it returns true, and then can increase the score
 boolean P1score(float S1)
 {
   boolean point = false;
@@ -122,6 +157,3 @@ boolean P2score(float S2)
   
   return point;
 }
-
-
-
